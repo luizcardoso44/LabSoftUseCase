@@ -15,7 +15,11 @@ public partial class DbTasksContext : DbContext
     {
     }
 
-    public virtual DbSet<Funcionario> Funcionarios { get; set; }
+    public virtual DbSet<CentralDeCustos> CentralDeCustos { get; set; }
+
+    public virtual DbSet<Departamentos> Departamentos { get; set; }
+
+    public virtual DbSet<Funcionarios> Funcionarios { get; set; }
 
     public virtual DbSet<Incidentes> Incidentes { get; set; }
 
@@ -26,7 +30,32 @@ public partial class DbTasksContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Funcionario>(entity =>
+        modelBuilder.Entity<CentralDeCustos>(entity =>
+        {
+            entity.HasKey(e => e.Codigo).HasName("PK__CentralD__06370DADB2BD38AB");
+
+            entity.ToTable("CentralDeCusto");
+
+            entity.Property(e => e.NomeCentral)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.ValorMetaAnual)
+                .HasDefaultValueSql("((0))")
+                .HasColumnType("decimal(18, 0)");
+        });
+
+        modelBuilder.Entity<Departamentos>(entity =>
+        {
+            entity.HasKey(e => e.Codigo).HasName("PK__Departam__06370DAD896542D7");
+
+            entity.ToTable("Departamento");
+
+            entity.Property(e => e.Descricao)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Funcionarios>(entity =>
         {
             entity.HasKey(e => e.Codigo).HasName("PK__Funciona__06370DAD71CBDD75");
 
